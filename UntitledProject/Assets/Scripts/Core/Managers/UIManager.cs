@@ -9,16 +9,18 @@ namespace Core.Managers
 {
     public class UIManager : Singleton<UIManager>
     {
+
+        private const string UI_PATH = "Scenes/UI/";
         public void ActivateUI(string name, bool active) {
 
             if (active) {
 
-                StartCoroutine(LoadUIScene(name));
+                StartCoroutine(LoadUIScene(UI_PATH + name));
 
             }
             else {
 
-                StartCoroutine(UnloadUIScene(name));
+                StartCoroutine(UnloadUIScene(UI_PATH + name));
             }
         }
 

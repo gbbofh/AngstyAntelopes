@@ -55,6 +55,8 @@ namespace Core.Managers
         //  like cleaning up the last scene or activing the 
         //  level loading UI)
         public void OnLoadBegin() {
+
+            uiManager.ActivateUI("loading", true);
         }
         
         //ToDo: called when the LevelManager ends loading a 
@@ -62,11 +64,12 @@ namespace Core.Managers
         //  LoadManager.
         public void OnLoadEnd() {
 
+            uiManager.ActivateUI("loading", false);
         }
         
         public void OnPlayerDead() {
 
-            levelManager.LoadLevel("GameOver", true, false);
+            levelManager.LoadLevel("lose", true, false);
         }
     }
 
