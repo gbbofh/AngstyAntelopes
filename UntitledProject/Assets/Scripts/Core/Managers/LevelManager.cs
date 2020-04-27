@@ -16,6 +16,8 @@ namespace Core.Managers
             }
         }
 
+        private Scene lastScene;
+
         private AsyncOperation loadOp;
         private GameManager gameManager;
 
@@ -25,10 +27,13 @@ namespace Core.Managers
         private void Start() {
 
             gameManager = GameManager.Instance;
+
+            lastScene = default(Scene);
         }
 
         public void LoadLevel(string levelName, bool activateOnLoad = true, bool loadAdditive = false) {
 
+            lastScene = Scene;
             gameManager.OnLoadBegin();
             //this makes load from scene function run cuncurently with everything else
             StartCoroutine(LoadFromScene(levelName, activateOnLoad, loadAdditive));

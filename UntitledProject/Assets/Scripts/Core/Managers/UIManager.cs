@@ -36,6 +36,12 @@ namespace Core.Managers
 
         //basically unloads a scene that is currently loaded
         //  (reverse of LoadUIScene)
+        // BUG:
+        // When LevelManager loads a scene, all loaded UI's
+        // are unloaded. To fix this, All scenes loaded by
+        // LevelManager must be loaded ADDITIVELY (like they are here)
+        // and it must manually remove the previously loaded scene.
+        // Big oof.
         private IEnumerator UnloadUIScene(string name) {
 
             AsyncOperation unloadOP = SceneManager.UnloadSceneAsync(name);

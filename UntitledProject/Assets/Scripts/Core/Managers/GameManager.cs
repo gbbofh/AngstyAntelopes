@@ -8,6 +8,15 @@ namespace Core.Managers
 {
     public class GameManager : Singleton<GameManager>
     {
+        enum GameState
+        {
+            START,
+            MENU,
+            PAUSE,
+            PLAY,
+            DONE
+        }
+
         public Config conf;
 
         public UnityAction onConfigLoad;
@@ -15,7 +24,7 @@ namespace Core.Managers
         private LevelManager levelManager;
         private UIManager uiManager;
 
-        private PlayerController player;
+        private GameState gameState;
 
         //called whenever the GameManager is created
         //called before anything else when a script 
@@ -24,6 +33,8 @@ namespace Core.Managers
 
             levelManager = LevelManager.Instance;
             uiManager = UIManager.Instance;
+
+            gameState = GameState.START;
         }
         
         //called after all of the other script have had 
@@ -38,7 +49,18 @@ namespace Core.Managers
                 onConfigLoad();
             }
         }
-        
+
+        private void Update() {
+            
+            switch(gameState) {
+
+                case GameState.START:
+                    levelManager.LoadLevel("main_menu", true, false);
+                    gameState = GameState.MENU;
+                    break;
+            }
+        }
+
         //this default values in case the config.txt is 
         //  empty/does not exist
         private void OnDestroy() {
@@ -56,7 +78,7 @@ namespace Core.Managers
         //  level loading UI)
         public void OnLoadBegin() {
 
-            uiManager.ActivateUI("loading", true);
+            uiManager.ActivateUI("load", true);
         }
         
         //ToDo: called when the LevelManager ends loading a 
@@ -64,7 +86,7 @@ namespace Core.Managers
         //  LoadManager.
         public void OnLoadEnd() {
 
-            uiManager.ActivateUI("loading", false);
+            uiManager.ActivateUI("load", false);
         }
         
         public void OnPlayerDead() {
