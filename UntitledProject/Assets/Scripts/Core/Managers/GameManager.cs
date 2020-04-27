@@ -71,6 +71,11 @@ namespace Core.Managers
 
             levelManager.LoadLevel("lose", true, false);
         }
+
+        public void OnPlayerDestroyedAllBuildings() {
+
+            levelManager.LoadLevel("win", true, false);
+        }
     }
 
 }
