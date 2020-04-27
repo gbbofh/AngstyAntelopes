@@ -22,7 +22,7 @@ namespace Core.Player
         private Rage rage;
         private Health health;
         private GameManager gameManager;
-
+        
         private float tickAccum = 0.0f;
         private const float RAGE_DEC = 0.5f;
         private const float RAGE_TICK = 1.5f;
@@ -50,11 +50,13 @@ namespace Core.Player
                 rage.Decrement(RAGE_DEC);
             }
         }
-
+        
+        //ToDo: be the actual player movement in 3D space
         private void OnMove(Vector2 axis) {
 
         }
 
+        //ToDo: handle the player attacking something
         private void OnAttack() {
 
         }
@@ -91,6 +93,7 @@ namespace Core.Player
             }
         }
 
+        //listened for Unity callbacks for player input
         public void Connect(PlayerInput input) {
 
             input.onMove += OnMove;
