@@ -40,7 +40,7 @@ namespace Core.Managers
             loadOp.allowSceneActivation = activateOnLoad;
 
             while (!loadOp.isDone) {
-
+                //this indicated that the coroutine is not yet done
                 yield return null;
             }
 
@@ -48,7 +48,8 @@ namespace Core.Managers
         }
 
         public void ActivateLoadedScene() {
-
+            //"onLevelActivated" is a unity thing that tells 
+            //  other entities that a level is active
             if(onLevelActivated != null) {
 
                 onLevelActivated();
