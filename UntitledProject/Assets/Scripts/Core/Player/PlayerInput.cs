@@ -8,9 +8,11 @@ using UnityEngine.InputSystem;
 
 namespace Core.Player
 {
+    //this class invokes the callbacks
     public class PlayerInput : MonoBehaviour
     {
         // Couldn't get InputActionMaps to work...
+        // I'm sorry:(
         private InputAction moveAction = new InputAction("move");
         private InputAction lookAction = new InputAction("look");
         private InputAction attackAction = new InputAction("attack");
@@ -24,12 +26,19 @@ namespace Core.Player
 
         GameManager gameManager;
 
+        // getting a reference to the gameManager and 
+        //  setting a callback for when the config file
+        //  is loaded
         private void Awake() {
 
             gameManager = GameManager.Instance;
             gameManager.onConfigLoad += OnConfigLoaded;
         }
 
+        // Passes an instace of PlayerInput to Connect() to
+        //      give access to onLook, onAttack, and onMove 
+        //      functions and that will let us register our 
+        //      callbacks within playerCamera and playerController
         private void Start() {
             
             // I think this call is safe here?
@@ -41,7 +50,9 @@ namespace Core.Player
             playerCamera.Connect(this);
             playerController.Connect(this);
         }
-
+        
+        // now we're maing sure that the key bindings loaded from conf.txt exists
+        // if they are not there, this is where we add the generic key bindings
         private void OnConfigLoaded() {
 
             Config conf = gameManager.conf;
@@ -97,6 +108,9 @@ namespace Core.Player
             attackAction.Enable();
         }
 
+        // called whenever the game object that has 
+        //      this script is enabled and then we 
+        //      enable all of the actions
         private void OnEnable() {
 
             moveAction.Enable();
@@ -104,13 +118,18 @@ namespace Core.Player
             attackAction.Enable();
         }
 
+        // same this as above but opposite
         private void OnDisable() {
 
             moveAction.Disable();
             lookAction.Disable();
             attackAction.Disable();
         }
-
+        
+        // is called whenever someone presses one of the 
+        //      keys defined in OnConfigLoaded. When it happens,
+        //      we invoke the Unity action and we pass the 
+        //      value associated with the input
         public void OnPlayerMove(InputAction.CallbackContext context) {
 
             Vector2 value = context.action.ReadValue<Vector2>();
@@ -120,7 +139,7 @@ namespace Core.Player
                 onMove(value);
             }
         }
-
+       
         public void OnPlayerLook(InputAction.CallbackContext context) {
             Vector2 value = context.action.ReadValue<Vector2>();
             //Debug.Log("Look: " + value.ToString());
