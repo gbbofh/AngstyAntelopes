@@ -22,12 +22,17 @@ namespace Core.Utils
             get;
             private set;
         }
-
+        
+        //Looks at dics, gets the keye and converts to an array
         public string[] Keys {
 
             get { return pairs.Keys.ToArray(); }
         }
-
+        
+        //"this" refers to the object instance
+        //get: called if reading a value
+        //  returnes the value of the pair associated with the key
+        //set: called if setting a value
         public string this[string key] {
             get {
 
@@ -57,7 +62,8 @@ namespace Core.Utils
 
             return true;
         }
-
+        
+        //convert a key as type T
         public T GetKeyAs<T>(string key) where T : System.IConvertible {
 
             string value;
@@ -65,7 +71,8 @@ namespace Core.Utils
             value = this[key];
             return (T)Convert.ChangeType(value, typeof(T));
         }
-
+        
+        //adding or changing a value associated with key as type T
         public void SetKeyAs<T>(string key, T value) where T : System.IConvertible {
 
             string valStr = value.ToString();
