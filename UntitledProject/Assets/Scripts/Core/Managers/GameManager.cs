@@ -8,21 +8,27 @@ namespace Core.Managers
 {
     public class GameManager : Singleton<GameManager>
     {
-        enum GameState
+        /*enum GameState
         {
             START,
             MENU,
             PAUSE,
-            PLAY,
-            DONE
+            PLAY
+        }*/
+
+        enum GameState
+        {
+            START,
+            RUNNING
         }
 
         public Config conf;
 
         public UnityAction onConfigLoad;
 
-        private LevelManager levelManager;
         private UIManager uiManager;
+        private LevelManager levelManager;
+        private BuildingManager buildingManager;
 
         private GameState gameState;
 
@@ -31,6 +37,7 @@ namespace Core.Managers
         //  is added to an object
         private void Awake() {
 
+            buildingManager = BuildingManager.Instance;
             levelManager = LevelManager.Instance;
             uiManager = UIManager.Instance;
 
@@ -48,16 +55,33 @@ namespace Core.Managers
 
                 onConfigLoad();
             }
+
+            buildingManager.onAllBuildingsDestroyed += OnPlayerDestroyedAllBuildings;
         }
 
         private void Update() {
             
-            switch(gameState) {
+            /*switch(gameState) {
 
                 case GameState.START:
                     levelManager.LoadLevel("main_menu", true, false);
                     gameState = GameState.MENU;
                     break;
+                case GameState.MENU:
+                    break;
+                case GameState.PAUSE:
+                    break;
+                case GameState.PLAY:
+                    break;
+            }*/
+
+            // This is a god awful hack to cope with
+            // the fact that we can't order the first
+            // level to be loaded in Start
+            if(gameState == GameState.START) {
+
+                gameState = GameState.RUNNING;
+                levelManager.LoadLevel("main_menu", true, false);
             }
         }
 
@@ -86,7 +110,8 @@ namespace Core.Managers
         //  LoadManager.
         public void OnLoadEnd() {
 
-            uiManager.ActivateUI("load", false);
+            // There is currently a bug here due to how LevelManager works.
+            //uiManager.ActivateUI("load", false);
         }
         
         public void OnPlayerDead() {

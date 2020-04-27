@@ -16,7 +16,7 @@ namespace Core.Managers
             }
         }
 
-        private Scene lastScene;
+        private string lastLevelName;
 
         private AsyncOperation loadOp;
         private GameManager gameManager;
@@ -24,16 +24,19 @@ namespace Core.Managers
         public UnityAction onLevelLoaded;
         public UnityAction onLevelActivated;
 
+        // I guess I could have actually just loaded the main menu from here...
+        // However, I feel like that will cause issues with GameManager's callbacks
+        // to listen for onLevelLoaded.
         private void Start() {
 
             gameManager = GameManager.Instance;
 
-            lastScene = default(Scene);
         }
 
         public void LoadLevel(string levelName, bool activateOnLoad = true, bool loadAdditive = false) {
 
-            lastScene = Scene;
+            lastLevelName = SceneManager.GetActiveScene().name;
+
             gameManager.OnLoadBegin();
             //this makes load from scene function run cuncurently with everything else
             StartCoroutine(LoadFromScene(levelName, activateOnLoad, loadAdditive));
