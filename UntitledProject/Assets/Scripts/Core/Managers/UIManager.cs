@@ -32,6 +32,8 @@ namespace Core.Managers
             }
         }
 
+        //basically unloads a scene that is currently loaded
+        //  (reverse of LoadUIScene)
         private IEnumerator UnloadUIScene(string name) {
 
             AsyncOperation unloadOP = SceneManager.UnloadSceneAsync(name);
