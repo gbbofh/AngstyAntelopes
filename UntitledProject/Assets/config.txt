@@ -1,0 +1,5 @@
+up = <Keyboard>/w
+down = <Keyboard>/s
+left = <Keyboard>/a
+right = <Keyboard>/d
+attack = <Mouse>/leftButton
