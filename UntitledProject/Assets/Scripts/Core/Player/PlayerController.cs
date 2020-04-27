@@ -21,7 +21,6 @@ namespace Core.Player
 
         private Rage rage;
         private Health health;
-        private GameManager gameManager;
         
         private float tickAccum = 0.0f;
         private const float RAGE_DEC = 0.5f;
@@ -37,8 +36,6 @@ namespace Core.Player
 
             rage.onFull += OnEnrage;
             rage.onEmpty += OnCalm;
-
-            gameManager = GameManager.Instance;
         }
 
         private void Update() {
