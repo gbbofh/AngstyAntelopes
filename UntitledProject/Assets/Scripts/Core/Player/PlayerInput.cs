@@ -13,9 +13,9 @@ namespace Core.Player
     {
         // Couldn't get InputActionMaps to work...
         // I'm sorry:(
-        private InputAction moveAction = new InputAction("move");
-        private InputAction lookAction = new InputAction("look");
-        private InputAction attackAction = new InputAction("attack");
+        //private InputAction moveAction = new InputAction("move");
+        //private InputAction lookAction = new InputAction("look");
+        //private InputAction attackAction = new InputAction("attack");
 
         public PlayerCamera playerCamera;
         public PlayerController playerController;
@@ -32,7 +32,7 @@ namespace Core.Player
         private void Awake() {
 
             gameManager = GameManager.Instance;
-            gameManager.onConfigLoad += OnConfigLoaded;
+            //gameManager.onConfigLoad += OnConfigLoaded;
         }
 
         // Passes an instace of PlayerInput to Connect() to
@@ -53,7 +53,7 @@ namespace Core.Player
         
         // now we're maing sure that the key bindings loaded from conf.txt exists
         // if they are not there, this is where we add the generic key bindings
-        private void OnConfigLoaded() {
+        /*private void OnConfigLoaded() {
 
             Config conf = gameManager.conf;
 
@@ -90,7 +90,7 @@ namespace Core.Player
             lookAction.Disable();
             attackAction.Disable();
 
-            moveAction.AddCompositeBinding("Dpad")
+            moveAction.AddCompositeBinding("2DVector")
                 .With("Up", conf["up"])
                 .With("Down", conf["down"])
                 .With("Left", conf["left"])
@@ -124,7 +124,7 @@ namespace Core.Player
             moveAction.Disable();
             lookAction.Disable();
             attackAction.Disable();
-        }
+        }*/
         
         // is called whenever someone presses one of the 
         //      keys defined in OnConfigLoaded. When it happens,
@@ -132,17 +132,20 @@ namespace Core.Player
         //      value associated with the input
         public void OnPlayerMove(InputAction.CallbackContext context) {
 
-            Vector2 value = context.action.ReadValue<Vector2>();
+            //Vector2 value = context.action.ReadValue<Vector2>();
+
+            Vector2 value = context.ReadValue<Vector2>().normalized;
             //Debug.Log("Move: " + value.ToString());
-            if(onMove != null) {
+            if (onMove != null) {
 
                 onMove(value);
             }
         }
        
         public void OnPlayerLook(InputAction.CallbackContext context) {
-            Vector2 value = context.action.ReadValue<Vector2>();
+            //Vector2 value = context.action.ReadValue<Vector2>();
             //Debug.Log("Look: " + value.ToString());
+            Vector2 value = context.ReadValue<Vector2>().normalized;
             if (onLook != null) {
 
                 onLook(value);

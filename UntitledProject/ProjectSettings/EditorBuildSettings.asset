@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/UI/load.unity
     guid: 068e02b7510782d4f9ed89d0589e545d
   - enabled: 1
-    path: Assets/Scenes/UI/main_menu.unity
+    path: Assets/Scenes/UI/menu.unity
     guid: 3a603e0a9887bc249a542b8f5ccb4826
   - enabled: 1
     path: Assets/Scenes/UI/lose.unity

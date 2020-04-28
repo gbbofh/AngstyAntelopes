@@ -84,8 +84,8 @@ namespace Core.Managers
             if(gameState == GameState.START) {
 
                 gameState = GameState.RUNNING;
-                levelManager.LoadLevel("main_menu");
-                uiManager.ActivateUI("menu", true);
+                //levelManager.LoadLevel("main_menu");
+                //uiManager.ActivateUI("menu", true);
             }
         }
 

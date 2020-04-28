@@ -14,6 +14,7 @@ namespace Pickups
         private float origYPos;
         private float yAnimPos;
         private float frequency;
+        private float amp;
 
         // Not sure if this is a good idea or not
         public UnityAction<HealthPickup> onPickup;
@@ -21,7 +22,8 @@ namespace Pickups
         private void Start() {
 
             value = Random.Range(15.0f, 30.0f);
-            frequency = Random.Range(5.0f, 8.0f);
+            frequency = Random.Range(5.0f, 6.0f);
+            amp = 0.3f;
 
             yAnimPos = 0.0f;
             origYPos = transform.position.y;
@@ -30,7 +32,7 @@ namespace Pickups
         private void Update() {
 
             transform.position = new Vector3(transform.position.x,
-                                            origYPos + 0.5f * Mathf.Sin(yAnimPos * frequency),
+                                            origYPos + amp * Mathf.Sin(yAnimPos * frequency),
                                             transform.position.z);
 
             yAnimPos += Time.deltaTime;

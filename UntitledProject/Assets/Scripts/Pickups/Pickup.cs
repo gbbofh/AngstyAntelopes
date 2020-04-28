@@ -18,5 +18,15 @@ namespace Pickups
                 onPickup(other);
             }
         }
+
+        private void OnCollisionEnter(Collision collision) {
+
+            Entity entity = collision.gameObject.GetComponent<Entity>();
+            
+            if(entity != null) {
+
+                OnPickup(entity);
+            }
+        }
     }
 }
