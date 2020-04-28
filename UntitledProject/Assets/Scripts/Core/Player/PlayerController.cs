@@ -21,8 +21,8 @@ namespace Core.Player
         public UnityAction onPlayerEnraged;
 
         // Player stats
-        private Rage rage;
-        private Health health;
+        public Rage rage;
+        public Health health;
 
         private float moveSpeed = 0.75f;
         
@@ -56,6 +56,10 @@ namespace Core.Player
 
             rage.onFull += OnEnrage;
             rage.onEmpty += OnCalm;
+
+            // Game Manager has already been instantiated at this point
+            GameManager.Instance.playerController = this;
+            UIManager.Instance.ActivateUI("hud", true);
         }
 
         private void Update() {

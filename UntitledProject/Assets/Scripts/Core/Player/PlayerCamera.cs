@@ -7,6 +7,8 @@ namespace Core.Player
 {
     public class PlayerCamera : MonoBehaviour
     {
+        public GameObject player;
+
         // ToDo: this happens after getting input from mouse
         //   now we apply it to the camera
         private void OnInput(Vector2 mouseDelta) {
@@ -18,6 +20,7 @@ namespace Core.Player
         //   of the camera movement
         void Update() {
 
+            transform.LookAt(player.transform);
         }
         
         // Listining to whenever Unity callback "onLook"

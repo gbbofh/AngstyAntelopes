@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI/lose.unity
     guid: f59c06c9f3a846546b1e4fde2e99d7a4
+  - enabled: 1
+    path: Assets/Scenes/UI/hud.unity
+    guid: 996c47b69b9be2e4fb4627d2a0ef0ac5
   m_configObjects: {}

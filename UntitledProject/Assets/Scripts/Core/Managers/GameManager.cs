@@ -33,6 +33,7 @@ namespace Core.Managers
         private GameState gameState;
 
         public int playerScore;
+        public PlayerController playerController;
 
         //called whenever the GameManager is created
         //called before anything else when a script 
