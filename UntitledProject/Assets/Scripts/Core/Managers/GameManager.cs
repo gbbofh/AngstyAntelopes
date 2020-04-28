@@ -32,6 +32,8 @@ namespace Core.Managers
 
         private GameState gameState;
 
+        public int playerScore;
+
         //called whenever the GameManager is created
         //called before anything else when a script 
         //  is added to an object
@@ -42,6 +44,7 @@ namespace Core.Managers
             uiManager = UIManager.Instance;
 
             gameState = GameState.START;
+            playerScore = 0;
         }
         
         //called after all of the other script have had 
@@ -81,7 +84,8 @@ namespace Core.Managers
             if(gameState == GameState.START) {
 
                 gameState = GameState.RUNNING;
-                levelManager.LoadLevel("main_menu", true, false);
+                levelManager.LoadLevel("gameover");
+                uiManager.ActivateUI("lose", true);
             }
         }
 

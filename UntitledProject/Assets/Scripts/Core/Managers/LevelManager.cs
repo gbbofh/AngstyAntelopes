@@ -16,10 +16,10 @@ namespace Core.Managers
             }
         }
 
-        private string lastLevelName;
-
         private AsyncOperation loadOp;
         private GameManager gameManager;
+
+        private const string LEVEL_PATH = "Scenes/Levels/";
 
         public UnityAction onLevelLoaded;
         public UnityAction onLevelActivated;
@@ -35,11 +35,9 @@ namespace Core.Managers
 
         public void LoadLevel(string levelName, bool activateOnLoad = true, bool loadAdditive = false) {
 
-            lastLevelName = SceneManager.GetActiveScene().name;
-
             gameManager.OnLoadBegin();
             //this makes load from scene function run cuncurently with everything else
-            StartCoroutine(LoadFromScene(levelName, activateOnLoad, loadAdditive));
+            StartCoroutine(LoadFromScene(LEVEL_PATH + levelName, activateOnLoad, loadAdditive));
         }
 
         IEnumerator LoadFromScene(string levelName, bool activateOnLoad, bool loadAdditive) {

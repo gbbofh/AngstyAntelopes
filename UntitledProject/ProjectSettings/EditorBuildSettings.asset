@@ -12,15 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/level_1.unity
     guid: 2433ce8501b476a498a7a56e73ee8320
   - enabled: 1
-    path: Assets/Scenes/Levels/win.unity
+    path: Assets/Scenes/Levels/gameover.unity
     guid: 4cd2c5e57d4314d4c80e45c181b321da
-  - enabled: 1
-    path: Assets/Scenes/Levels/lose.unity
-    guid: 02f1f5fc241c6a543ba1d12abb544375
   - enabled: 1
     path: Assets/Scenes/UI/load.unity
     guid: 068e02b7510782d4f9ed89d0589e545d
   - enabled: 1
     path: Assets/Scenes/UI/pause_menu.unity
     guid: 3a603e0a9887bc249a542b8f5ccb4826
+  - enabled: 1
+    path: Assets/Scenes/UI/lose.unity
+    guid: f59c06c9f3a846546b1e4fde2e99d7a4
   m_configObjects: {}
