@@ -31,11 +31,15 @@ namespace Pickups
 
         private void Update() {
 
+            float yPos = Mathf.Sin(yAnimPos * frequency);
+
             transform.position = new Vector3(transform.position.x,
-                                            origYPos + amp * Mathf.Sin(yAnimPos * frequency),
+                                            origYPos + amp * yPos,
                                             transform.position.z);
 
             yAnimPos += Time.deltaTime;
+
+            transform.Rotate(Vector3.up, 1.0f * (yPos + 1.0f));
         }
 
         void OnPickup(Entity other) {

@@ -155,7 +155,7 @@ namespace Core.Player
         public void OnPlayerAttack(InputAction.CallbackContext context) {
 
             //Debug.Log("Attack");
-            if (onAttack != null) {
+            if (onAttack != null && context.action.triggered) {
 
                 onAttack();
             }

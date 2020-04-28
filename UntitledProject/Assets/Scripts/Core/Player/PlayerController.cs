@@ -23,6 +23,8 @@ namespace Core.Player
         // Player stats
         private Rage rage;
         private Health health;
+
+        private float moveSpeed = 0.75f;
         
         // To keep rage decreasing over time
         private float tickAccum = 0.0f;
@@ -30,7 +32,7 @@ namespace Core.Player
         private const float RAGE_TICK = 1.5f;
 
         // Camera reference
-        private PlayerCamera camera;
+        private PlayerCamera playerCamera;
 
         // Controller references
         private Animator animator;
@@ -45,8 +47,9 @@ namespace Core.Player
             rage = GetComponent<Rage>();
 
             animator = GetComponent<Animator>();
+            controller = GetComponent<CharacterController>();
 
-            camera = GameObject.FindObjectOfType<PlayerCamera>();
+            playerCamera = GameObject.FindObjectOfType<PlayerCamera>();
 
             health.onEmpty += OnDead;
             health.onDecrement += OnHurt;
@@ -57,19 +60,30 @@ namespace Core.Player
 
         private void Update() {
 
+            float speed = moveSpeed * moveDir.magnitude;
+
             tickAccum += Time.deltaTime;
             if(tickAccum >= RAGE_TICK) {
 
                 tickAccum -= RAGE_TICK;
                 rage.Decrement(RAGE_DEC);
             }
+
+            float angle = Mathf.Atan2(moveDir.x, moveDir.y) * Mathf.Rad2Deg + playerCamera.transform.eulerAngles.y;
+
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("attack")) return;
+
+            if (moveDir != Vector2.zero) {
+
+                transform.eulerAngles = Vector3.up * angle;
+            }
+            controller.Move(transform.forward * speed * Time.deltaTime);
         }
         
         //ToDo: be the actual player movement in 3D space
         private void OnMove(Vector2 axis) {
 
             moveDir = axis.normalized;
-
             animator.SetBool("walking", moveDir.magnitude > 0);
         }
 
