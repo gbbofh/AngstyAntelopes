@@ -14,8 +14,6 @@ namespace Core.Managers
 
         private const string UI_PATH = "Scenes/UI/";
 
-        public UnityAction onUIActivated;
-
         public void ActivateUI(string name, bool active) {
 
             if (active) {
