@@ -50,7 +50,7 @@ namespace Entities.Buildings
                 int i = Random.Range(0, droppedItems.Count - 1);
                 if (i >= 0) {
 
-                    Instantiate(droppedItems[i], transform.position, Quaternion.identity);
+                    Instantiate(droppedItems[i], transform.position + Vector3.up, Quaternion.identity);
                 }
             }
 

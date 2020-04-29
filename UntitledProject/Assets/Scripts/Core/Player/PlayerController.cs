@@ -75,7 +75,7 @@ namespace Core.Player
             float angle = Mathf.Atan2(moveDir.x, moveDir.y) * Mathf.Rad2Deg + playerCamera.transform.eulerAngles.y;
 
             // Exposed for debugging
-            grounded = Physics.CheckSphere(groundChecker.transform.position, 0.5f,
+            grounded = Physics.CheckSphere(groundChecker.transform.position, 0.75f,
                                                 (1 << LayerMask.NameToLayer("Ground")),
                                                 QueryTriggerInteraction.Ignore);
 
@@ -118,6 +118,8 @@ namespace Core.Player
 
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(attackChecker.transform.position, attackBounds / 2);
+
+            Gizmos.DrawWireSphere(groundChecker.transform.position, 0.75f);
         }
 
         //ToDo: handle the player attacking something

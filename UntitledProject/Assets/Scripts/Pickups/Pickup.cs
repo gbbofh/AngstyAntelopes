@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 namespace Pickups
 {
+    [RequireComponent(typeof(Collider))]
     public class Pickup : MonoBehaviour
     {
 
@@ -19,7 +20,7 @@ namespace Pickups
             }
         }
 
-        private void OnCollisionEnter(Collision collision) {
+        private void OnTriggerEnter(Collider collision) {
 
             Entity entity = collision.gameObject.GetComponent<Entity>();
             

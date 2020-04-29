@@ -16,6 +16,8 @@ namespace Pickups
         private float frequency;
         private float amp;
 
+        private Pickup pickup;
+
         // Not sure if this is a good idea or not
         public UnityAction<HealthPickup> onPickup;
 
@@ -27,6 +29,9 @@ namespace Pickups
 
             yAnimPos = 0.0f;
             origYPos = transform.position.y;
+
+            pickup = GetComponent<Pickup>();
+            pickup.onPickup += OnPickup;
         }
 
         private void Update() {
@@ -44,15 +49,23 @@ namespace Pickups
 
         void OnPickup(Entity other) {
 
+            Health health;
+
             if(other.GetComponent<PlayerController>() != null) {
 
-                other.GetComponent<Health>().Increment(this.value);
-            }
+                Debug.Log("Picked up health");
 
-            this.gameObject.SetActive(false);
-            if(onPickup != null) {
+                health = other.GetComponent<Health>();
+                if(health.CurrentValue < health.MaxValue) {
 
-                onPickup(this);
+                    other.GetComponent<Health>().Increment(this.value);
+
+                    this.gameObject.SetActive(false);
+                    if (onPickup != null) {
+
+                        onPickup(this);
+                    }
+                }
             }
         }
     }
