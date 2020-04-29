@@ -123,12 +123,15 @@ namespace Core.Managers
         
         public void OnPlayerDead() {
 
-            levelManager.LoadLevel("lose", true, false);
+            levelManager.LoadLevel("gameover", true, false);
+            uiManager.ActivateUI("lose", true);
         }
 
         public void OnPlayerDestroyedAllBuildings() {
 
-            levelManager.LoadLevel("main_menu", true, false);
+            //levelManager.LoadLevel("win", true, false);
+            levelManager.LoadLevel("gameover", true, false);
+            uiManager.ActivateUI("win_ui", true);
         }
 
         private void OnPlayerDestroyedBuilding(Building b) {
