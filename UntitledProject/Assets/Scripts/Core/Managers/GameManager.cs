@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 using Core.Utils;
 using Core.Player;
+using Entities.Buildings;
 
 namespace Core.Managers
 {
@@ -61,6 +62,7 @@ namespace Core.Managers
             }
 
             buildingManager.onAllBuildingsDestroyed += OnPlayerDestroyedAllBuildings;
+            buildingManager.onBuildingDestroyed += OnPlayerDestroyedBuilding;
         }
 
         private void Update() {
@@ -126,7 +128,12 @@ namespace Core.Managers
 
         public void OnPlayerDestroyedAllBuildings() {
 
-            levelManager.LoadLevel("win", true, false);
+            levelManager.LoadLevel("main_menu", true, false);
+        }
+
+        private void OnPlayerDestroyedBuilding(Building b) {
+
+            playerScore += b.Worth;
         }
     }
 

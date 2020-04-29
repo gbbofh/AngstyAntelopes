@@ -24,6 +24,13 @@ namespace Core.Player
         public Rage rage;
         public Health health;
 
+        public GameObject groundChecker;
+        public GameObject attackChecker;
+        public Vector3 attackBounds = new Vector3(1, 1, 1);
+
+        public bool grounded;
+        public Vector3 velocity;
+
         private float moveSpeed = 0.75f;
         
         // To keep rage decreasing over time
@@ -62,18 +69,23 @@ namespace Core.Player
             UIManager.Instance.ActivateUI("hud", true);
         }
 
-        private void Update() {
+        private void FixedUpdate() {
 
             float speed = moveSpeed * moveDir.magnitude;
-
-            tickAccum += Time.deltaTime;
-            if(tickAccum >= RAGE_TICK) {
-
-                tickAccum -= RAGE_TICK;
-                rage.Decrement(RAGE_DEC);
-            }
-
             float angle = Mathf.Atan2(moveDir.x, moveDir.y) * Mathf.Rad2Deg + playerCamera.transform.eulerAngles.y;
+
+            // Exposed for debugging
+            grounded = Physics.CheckSphere(groundChecker.transform.position, 0.5f,
+                                                (1 << LayerMask.NameToLayer("Ground")),
+                                                QueryTriggerInteraction.Ignore);
+
+            velocity = transform.forward * speed * Time.deltaTime;
+            velocity.y += -9.8f * Time.deltaTime;
+
+            if(grounded && velocity.y < 0) {
+
+                velocity.y = 0.0f;
+            }
 
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("attack")) return;
 
@@ -81,7 +93,18 @@ namespace Core.Player
 
                 transform.eulerAngles = Vector3.up * angle;
             }
-            controller.Move(transform.forward * speed * Time.deltaTime);
+
+            //controller.Move(transform.forward * speed * Time.deltaTime);
+            controller.Move(velocity);
+        }
+        private void Update() {
+
+            tickAccum += Time.deltaTime;
+            if(tickAccum >= RAGE_TICK) {
+
+                tickAccum -= RAGE_TICK;
+                rage.Decrement(RAGE_DEC);
+            }
         }
         
         //ToDo: be the actual player movement in 3D space
@@ -91,10 +114,42 @@ namespace Core.Player
             animator.SetBool("walking", moveDir.magnitude > 0);
         }
 
+        private void OnDrawGizmos() {
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(attackChecker.transform.position, attackBounds / 2);
+        }
+
         //ToDo: handle the player attacking something
         private void OnAttack() {
 
             animator.SetTrigger("attacking");
+
+            Collider[] colliders = Physics.OverlapBox(attackChecker.transform.position,
+                                                        attackBounds / 2,
+                                                        transform.rotation,
+                                                        (1 << LayerMask.NameToLayer("Attackable")));
+
+            if (colliders != null && colliders.Length > 0) {
+
+                Collider closest = colliders[0];
+
+                foreach (Collider c in colliders) {
+
+                    float distance = Vector3.Distance(transform.position, c.transform.position);
+                    if (distance < Vector3.Distance(transform.position, closest.transform.position)) {
+
+                        closest = c;
+                    }
+                }
+
+                Health health = closest.gameObject.GetComponent<Health>();
+                if(health != null) {
+
+                    health.Decrement(50.0f);
+                    Debug.Log(health.CurrentValue);
+                }
+            }
         }
 
         private void OnHurt() {
@@ -138,7 +193,6 @@ namespace Core.Player
 
         public void OnCollisionEnter(Collision collision) {
 
-            Debug.Log(collision.gameObject.name);
         }
     }
 

@@ -2,6 +2,8 @@
 
 using Core.Utils;
 using Entities.Buildings;
+
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Core.Managers
@@ -9,9 +11,12 @@ namespace Core.Managers
     class BuildingManager : Singleton<BuildingManager>
     {
         private List<Building> buildings;
+
+        [SerializeField]
         private int numBuildings;
 
         public UnityAction onAllBuildingsDestroyed;
+        public UnityAction<Building> onBuildingDestroyed;
 
         public void Awake() {
 
@@ -24,6 +29,8 @@ namespace Core.Managers
 
             buildings.Add(e);
 
+            e.onBuildingDestroyed += OnBuildingDestroyed;
+
             numBuildings++;
         }
 
@@ -32,9 +39,14 @@ namespace Core.Managers
             buildings.Remove(e);
         }
 
-        private void OnBuildingDestroyed(Entity e) {
+        private void OnBuildingDestroyed(Building e) {
 
             numBuildings--;
+            if(onBuildingDestroyed != null) {
+
+                onBuildingDestroyed(e);
+            }
+
             if(numBuildings == 0 && onAllBuildingsDestroyed != null) {
 
                 onAllBuildingsDestroyed();
