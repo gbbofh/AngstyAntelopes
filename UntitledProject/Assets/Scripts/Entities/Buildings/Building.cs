@@ -13,16 +13,17 @@ namespace Entities.Buildings
     public class Building : MonoBehaviour
     {
         public UnityAction<Building> onBuildingDestroyed;
-        private BuildingManager buildingManager;
-        private Health health;
+        protected BuildingManager buildingManager;
+        protected Health health;
+        private const float INV_DROP_FREQ = 0.8f;
 
         public List<GameObject> droppedItems;
 
-        private bool dropPickup;
+        protected bool dropPickup;
 
         public int Worth {
 
-            get; private set;
+            get; protected set;
         }
 
         void Start() {
@@ -32,8 +33,11 @@ namespace Entities.Buildings
 
             health = GetComponent<Health>();
             health.onEmpty += OnHealthEmpty;
+            health.MaxValue = 50;
+            health.MinValue = 0;
+            health.CurrentValue = health.MaxValue;
 
-            dropPickup = Random.Range(0.0f, 1.0f) > 0.8f;
+            dropPickup = Random.Range(0.0f, 1.0f) > INV_DROP_FREQ;
             Worth = Random.Range(100, 200);
         }
 
@@ -42,7 +46,7 @@ namespace Entities.Buildings
             buildingManager.RemoveBuilding(this);
         }
 
-        private void OnHealthEmpty() {
+        protected void OnHealthEmpty() {
 
             gameObject.SetActive(false);
             if(dropPickup == true && droppedItems != null && droppedItems.Count > 0) {

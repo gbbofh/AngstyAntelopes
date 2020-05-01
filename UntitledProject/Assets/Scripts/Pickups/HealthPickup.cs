@@ -10,7 +10,7 @@ namespace Pickups
     [RequireComponent(typeof(Pickup))]
     public class HealthPickup : MonoBehaviour
     {
-        private float value;
+        private int value;
         private float origYPos;
         private float yAnimPos;
         private float frequency;
@@ -23,7 +23,7 @@ namespace Pickups
 
         private void Start() {
 
-            value = Random.Range(15.0f, 30.0f);
+            value = Random.Range(15, 30);
             frequency = Random.Range(5.0f, 6.0f);
             amp = 0.3f;
 

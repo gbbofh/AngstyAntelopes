@@ -35,7 +35,7 @@ namespace Core.Player
         
         // To keep rage decreasing over time
         private float tickAccum = 0.0f;
-        private const float RAGE_DEC = 0.5f;
+        private const int RAGE_DEC = 2;
         private const float RAGE_TICK = 1.5f;
 
         // Camera reference
@@ -61,12 +61,21 @@ namespace Core.Player
             health.onEmpty += OnDead;
             health.onDecrement += OnHurt;
 
+            health.MinValue = 0;
+            health.MaxValue = 100;
+            health.CurrentValue = health.MaxValue;
+
             rage.onFull += OnEnrage;
             rage.onEmpty += OnCalm;
+            rage.MinValue = 0;
+            rage.MaxValue = 100;
+            rage.CurrentValue = rage.MaxValue;
 
             // Game Manager has already been instantiated at this point
             GameManager.Instance.playerController = this;
             UIManager.Instance.ActivateUI("hud", true);
+
+            health.onEmpty += GameManager.Instance.OnPlayerDead;
         }
 
         private void FixedUpdate() {
@@ -104,6 +113,7 @@ namespace Core.Player
 
                 tickAccum -= RAGE_TICK;
                 rage.Decrement(RAGE_DEC);
+                health.Decrement(RAGE_DEC); // TODO: Remove this! It is for debugging and testing
             }
         }
         
@@ -111,7 +121,10 @@ namespace Core.Player
         private void OnMove(Vector2 axis) {
 
             moveDir = axis.normalized;
-            animator.SetBool("walking", moveDir.magnitude > 0);
+
+            if (animator != null) {
+                animator.SetBool("walking", moveDir.magnitude > 0);
+            }
         }
 
         private void OnDrawGizmos() {
@@ -122,10 +135,7 @@ namespace Core.Player
             Gizmos.DrawWireSphere(groundChecker.transform.position, 0.75f);
         }
 
-        //ToDo: handle the player attacking something
-        private void OnAttack() {
-
-            animator.SetTrigger("attacking");
+        public void OnPlayerAttackDone() {
 
             Collider[] colliders = Physics.OverlapBox(attackChecker.transform.position,
                                                         attackBounds / 2,
@@ -146,11 +156,20 @@ namespace Core.Player
                 }
 
                 Health health = closest.gameObject.GetComponent<Health>();
-                if(health != null) {
+                if (health != null) {
 
-                    health.Decrement(50.0f);
+                    health.Decrement(25 * Random.Range(1, 2));
                     Debug.Log(health.CurrentValue);
                 }
+            }
+        }
+
+        //ToDo: handle the player attacking something
+        private void OnAttack() {
+
+            if (animator != null) {
+
+                animator.SetTrigger("attacking");
             }
         }
 
@@ -191,10 +210,6 @@ namespace Core.Player
 
             input.onMove += OnMove;
             input.onAttack += OnAttack;
-        }
-
-        public void OnCollisionEnter(Collision collision) {
-
         }
     }
 

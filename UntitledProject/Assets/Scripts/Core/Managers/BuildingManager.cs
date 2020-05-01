@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 namespace Core.Managers
 {
-    class BuildingManager : Singleton<BuildingManager>
+    public class BuildingManager : Singleton<BuildingManager>
     {
         private List<Building> buildings;
 

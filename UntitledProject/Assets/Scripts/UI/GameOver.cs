@@ -26,6 +26,7 @@ namespace UI
         public void OnMainMenuClicked() {
 
             levelManager.LoadLevel("main_menu");
+            gameManager.playerScore = 0;
         }
     }
 }

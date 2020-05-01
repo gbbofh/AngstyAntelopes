@@ -10,22 +10,22 @@ namespace Core
         public UnityAction onEmpty;
         public UnityAction onFull;
 
-        public float MaxValue {
+        public int MaxValue {
 
             get; set;
         }
 
-        public float MinValue {
+        public int MinValue {
 
             get; set;
         }
 
-        public float CurrentValue {
+        public int CurrentValue {
 
-            get; protected set;
+            get; set;
         }
 
-        public void Increment(float amount) {
+        public void Increment(int amount) {
 
             CurrentValue = Mathf.Clamp(CurrentValue + amount, MinValue, MaxValue);
 
@@ -40,7 +40,7 @@ namespace Core
             }
         }
 
-        public void Decrement(float amount) {
+        public void Decrement(int amount) {
 
             CurrentValue = Mathf.Clamp(CurrentValue - amount, MinValue, MaxValue);
 

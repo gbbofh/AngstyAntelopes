@@ -150,7 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558887caecfb64b4591cc0436386057b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  droppedItems: []
+  droppedItems:
+  - {fileID: 4313212052444210845, guid: 61c7022e7de8aa44e90772e647056c6a, type: 3}
 --- !u!65 &1954875218856155431
 BoxCollider:
   m_ObjectHideFlags: 0
